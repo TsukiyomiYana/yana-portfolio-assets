@@ -113,6 +113,6 @@ window.YANA_PORTFOLIO_CATS = [
   }
 ];
 window.YANA_PORTFOLIO_MANIFEST = {
-  "generatedAt": "2026-02-20T20:53:24.220Z",
+  "generatedAt": "2026-02-20T23:46:33.071Z",
   "base": "https://tsukiyomiyana.github.io/yana-portfolio-assets/"
 };
