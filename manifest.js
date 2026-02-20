@@ -45,7 +45,56 @@ window.YANA_PORTFOLIO_CATS = [
   {
     "k": "props",
     "l": "3D Props",
-    "i": []
+    "i": [
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-007-fudon-s01-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-007-fudon-s01-1200x675-v1.webp",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-006-showaradio-s01-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-006-showaradio-s01-1200x675-v1.webp",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-005-sakeset-s01-1200x675-v1.png",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-005-sakeset-s01-1200x675-v1.png",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-004-arctic-s01-1200x675-v1.png",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-004-arctic-s01-1200x675-v1.png",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-003-icv-s01-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-003-icv-s01-1200x675-v1.webp",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-002-spaceroom-s01-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-002-spaceroom-s01-1200x675-v1.webp",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-001-tailorshop-s02-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-001-tailorshop-s02-1200x675-v1.webp",
+        "ti": ""
+      },
+      {
+        "t": "image",
+        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-001-tailorshop-s01-1200x675-v1.webp",
+        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/props/pr-001-tailorshop-s01-1200x675-v1.webp",
+        "ti": ""
+      }
+    ]
   },
   {
     "k": "live2d",
@@ -64,6 +113,6 @@ window.YANA_PORTFOLIO_CATS = [
   }
 ];
 window.YANA_PORTFOLIO_MANIFEST = {
-  "generatedAt": "2026-02-20T20:52:24.491Z",
+  "generatedAt": "2026-02-20T20:53:24.220Z",
   "base": "https://tsukiyomiyana.github.io/yana-portfolio-assets/"
 };
