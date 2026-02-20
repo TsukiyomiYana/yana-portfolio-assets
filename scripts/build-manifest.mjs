@@ -2,95 +2,108 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const BASE_URL = (process.env.BASE_URL || "").replace(/\/?$/, "/"); // ensure trailing slash
-const WORKS_DIR = "works";
-const OUT_JSON = "manifest.json";
-const OUT_JS = "manifest.js";
+const ROOT = process.cwd();
+const WORKS_DIR = path.join(ROOT, "works");
+const THUMBS_DIR = path.join(ROOT, "thumbs");
 
-// allow images + videos (you can add more if needed)
-const ALLOWED_EXT = new Set([
-  ".png", ".jpg", ".jpeg", ".webp", ".gif",
-  ".mp4", ".webm"
-]);
+// 你的分類「固定成資料夾」：works/<key>/...
+const CATEGORY_ORDER = [
+  { k: "chars",  l: "3D Chars" },
+  { k: "props",  l: "3D Props" },
+  { k: "live2d", l: "Live2D" },
+  { k: "game",   l: "Game Development" },
+  { k: "sketch", l: "Sketch" },
+];
 
-function isAllowedFile(name) {
-  const ext = path.extname(name).toLowerCase();
-  return ALLOWED_EXT.has(ext);
-}
+const IMG_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif"]);
 
-function kindFromExt(ext) {
-  const e = ext.toLowerCase();
-  return (e === ".mp4" || e === ".webm") ? "video" : "image";
-}
+// GitHub Pages base（對應你的 assets repo）
+const BASE = "https://tsukiyomiyana.github.io/yana-portfolio-assets/";
 
 async function exists(p) {
   try { await fs.access(p); return true; } catch { return false; }
 }
 
-async function listSubdirs(dir) {
+function sortNewestFirst(a, b) {
+  // 你檔名有 001/002/003 padding，直接字典序反向就會是新→舊
+  return b.localeCompare(a, "en");
+}
+
+function makeTitleFromFilename(filename) {
+  // 預設不顯示標題最乾淨：回傳空字串即可
+  // 想顯示就把這行改成：return filename.replace(/\.[^.]+$/, "");
+  return "";
+}
+
+async function listImagesInCategory(catKey) {
+  const dir = path.join(WORKS_DIR, catKey);
+  if (!(await exists(dir))) return [];
+
   const ents = await fs.readdir(dir, { withFileTypes: true });
-  return ents
-    .filter(d => d.isDirectory())
-    .map(d => d.name)
-    .filter(name => !name.startsWith("."));
-}
+  const files = ents
+    .filter(e => e.isFile())
+    .map(e => e.name)
+    .filter(name => IMG_EXT.has(path.extname(name).toLowerCase()))
+    .sort(sortNewestFirst);
 
-async function listFiles(dir) {
-  const ents = await fs.readdir(dir, { withFileTypes: true });
-  return ents
-    .filter(d => d.isFile())
-    .map(d => d.name)
-    .filter(isAllowedFile);
-}
+  const items = [];
+  for (const name of files) {
+    const rel = `works/${catKey}/${name}`;
+    const absThumb1 = path.join(THUMBS_DIR, catKey, name);           // thumbs/<cat>/<file>
+    const absThumb2 = path.join(THUMBS_DIR, "works", catKey, name);  // thumbs/works/<cat>/<file>
 
-function sortByFilename(a, b) {
-  // your names are zero-padded (ch-001...), normal lex sort is perfect
-  return a.localeCompare(b, "en");
-}
+    let thRel = null;
+    if (await exists(absThumb1)) thRel = `thumbs/${catKey}/${name}`;
+    else if (await exists(absThumb2)) thRel = `thumbs/works/${catKey}/${name}`;
 
-(async () => {
-  if (!BASE_URL) {
-    throw new Error("BASE_URL is required. Example: https://tsukiyomiyana.github.io/yana-portfolio-assets/");
-  }
-  if (!(await exists(WORKS_DIR))) {
-    throw new Error(`Missing folder: ${WORKS_DIR}/`);
-  }
+    const s  = BASE + rel;
+    const th = thRel ? (BASE + thRel) : s;
 
-  const categoryNames = await listSubdirs(WORKS_DIR);
-
-  const categories = {};
-  for (const cat of categoryNames) {
-    const catDir = path.join(WORKS_DIR, cat);
-    const files = (await listFiles(catDir)).sort(sortByFilename);
-
-    categories[cat] = files.map((file) => {
-      const ext = path.extname(file);
-      const id = path.basename(file, ext);
-      const relPath = `${WORKS_DIR}/${cat}/${file}`; // works/chars/xxx.png
-      return {
-        id,
-        kind: kindFromExt(ext),
-        src: `${BASE_URL}${relPath}`,
-        // if you don't have separate thumbs, just reuse src
-        thumb: `${BASE_URL}${relPath}`,
-        filename: file
-      };
+    items.push({
+      t: "image",
+      s,
+      th,
+      ti: makeTitleFromFilename(name),
     });
   }
 
-  const manifest = {
-    schema: 1,
-    generatedAt: new Date().toISOString(),
-    baseUrl: BASE_URL,
-    categories
+  return items;
+}
+
+async function main() {
+  const cats = [];
+  for (const c of CATEGORY_ORDER) {
+    const items = await listImagesInCategory(c.k);
+    cats.push({ k: c.k, l: c.l, i: items });
+  }
+
+  const now = new Date().toISOString();
+  const json = {
+    version: 1,
+    generatedAt: now,
+    base: BASE,
+    cats,
   };
 
-  await fs.writeFile(OUT_JSON, JSON.stringify(manifest, null, 2) + "\n", "utf8");
+  const outJson = path.join(ROOT, "manifest.json");
+  const outJs   = path.join(ROOT, "manifest.js");
 
-  // manifest.js avoids CORS issues on Carrd:
-  // load via <script> then read window.YANA_PORTFOLIO_MANIFEST
-  const js = `window.YANA_PORTFOLIO_MANIFEST = ${JSON.stringify(manifest, null, 2)};\n`;
-  await fs.writeFile(OUT_JS, js, "utf8");
+  await fs.writeFile(outJson, JSON.stringify(json, null, 2) + "\n", "utf8");
 
-  console.log(`Wrote ${OUT_JSON} and ${OUT_JS}`);
-})();
+  // 直接輸出成你現有系統可吃的 window.YANA_PORTFOLIO_CATS
+  const js = [
+    "/* Auto-generated. Do not edit by hand. */",
+    `window.YANA_PORTFOLIO_CATS = ${JSON.stringify(cats, null, 2)};`,
+    `window.YANA_PORTFOLIO_MANIFEST = ${JSON.stringify({ generatedAt: now, base: BASE }, null, 2)};`,
+    ""
+  ].join("\n");
+
+  await fs.writeFile(outJs, js, "utf8");
+
+  console.log(`[manifest] generated ${cats.reduce((n,c)=>n+(c.i?.length||0),0)} items @ ${now}`);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
