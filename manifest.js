@@ -3,44 +3,7 @@ window.YANA_PORTFOLIO_CATS = [
   {
     "k": "chars",
     "l": "3D Chars",
-    "i": [
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-006-lego-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-006-lego-s01-1920x1080-v1.png",
-        "ti": ""
-      },
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-005-mech-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-005-mech-s01-1920x1080-v1.png",
-        "ti": ""
-      },
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-004-catgirl-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-004-catgirl-s01-1920x1080-v1.png",
-        "ti": ""
-      },
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-003-tintoy-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-003-tintoy-s01-1920x1080-v1.png",
-        "ti": ""
-      },
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-002-griff-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-002-griff-s01-1920x1080-v1.png",
-        "ti": ""
-      },
-      {
-        "t": "image",
-        "s": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-001-tildas-s01-1920x1080-v1.png",
-        "th": "https://tsukiyomiyana.github.io/yana-portfolio-assets/works/chars/ch-001-tildas-s01-1920x1080-v1.png",
-        "ti": ""
-      }
-    ]
+    "i": []
   },
   {
     "k": "props",
@@ -64,6 +27,6 @@ window.YANA_PORTFOLIO_CATS = [
   }
 ];
 window.YANA_PORTFOLIO_MANIFEST = {
-  "generatedAt": "2026-02-20T15:09:12.097Z",
+  "generatedAt": "2026-02-20T20:51:39.999Z",
   "base": "https://tsukiyomiyana.github.io/yana-portfolio-assets/"
 };
